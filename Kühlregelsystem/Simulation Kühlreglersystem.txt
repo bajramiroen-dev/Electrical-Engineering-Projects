@@ -1,0 +1,20 @@
+iCounter := iCounter + 1; //Zählt die zyklen, die das Porgramm durchläuft
+
+//nachdem der Kompressor aktiviert wurde, weil TempActual zu hoch ist, sinkt die Temperatur ab.
+// Die temperatur sinkt um 0.1 °C pro zyklus nach der verzögerung von P_Cooling
+IF Glob_Var.xCompressor THEN //Ist Kompressor An?
+	TON_1(IN:=Glob_Var.xCompressor, PT:= P_Cooling, Q=>xReduceTemp); //Timer geht bis P_Cooling (500ms) dann schaltet xReduceTemp auf TRUE
+	IF xReduceTemp THEN
+			Glob_Var.rTempActual := Glob_Var.rTempActual - 0.1; //Temperatur verringert sich
+			TON_1(IN:=FALSE); // Setzt den Timer zurück
+	END_IF
+END_IF
+//wenn die Tür offen ist, wird es schneller warm; SEL nimt P_EnvironmentDoorOpen
+timTemp:=SEL(Glob_Var.xDoorOpen, P_Environment, P_EnvironmentDoorOpen);//digitaler Multiplexer. ist Tür zu? oder Tür offen? Je nachdem was für ne Situation ist, wählt der Multiplexer die richtige Variable aus
+//Ist der Kompressor nicht in Benutzung, wird der kühlraum wärmer
+//Temperatur steigt um 0.1°C pro zyklus nach der verzögerung von tTemp
+TON_2(IN:= TRUE, PT:= timTemp, Q =>xRaiseTemp); //TON_2 ist dauerhaft an we
+IF xRaiseTemp THEN
+		Glob_Var.rTempActual := Glob_Var.rTempActual + 0.1; //Temperatur erhöht sich
+		TON_2(IN:=FALSE); // setzt timer zurück
+END_IF
