@@ -1,0 +1,21 @@
+Global Variables:
+
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Isttemperatur
+	rTempActual: REAL := 8.0;
+	// Solltemperatur
+	rTempSet: REAL := 8.0;
+	// Status Tür
+	xDoorOpen: BOOL := FALSE;
+	// Kompressorlaufzeit, nach der ein Signal ertönt
+	timAlarmThreshold: TIME := T#30S;
+	// Zeit ab türöffnung, nach der ein Signal ertönt
+	timDoorOpenThreshold: TIME := T#10S;
+	// Steuersignal
+	xCompressor: BOOL := FALSE;
+	// Steuersignal
+	xSignal: BOOL := FALSE;
+	// Statusmeldung
+	xLamp: BOOL := FALSE;
+END_VAR
