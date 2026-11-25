@@ -1,3 +1,4 @@
+clear; clc; close all;
 %% 1. Lade- und Entladekurve im Zeitbereich
 R = 1000; 
 C = 1e-6;
